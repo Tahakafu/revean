@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IRoomRepository
+    public interface IRoomRepository : IGenericRepository<Room>
     {
         public Task<IReadOnlyList<Room>> GetAvailableRoomsAsync();
         
