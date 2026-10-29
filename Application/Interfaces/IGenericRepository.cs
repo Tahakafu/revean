@@ -14,5 +14,6 @@ namespace Application.Interfaces
         Task AddAsync(T entity);
         void UpdateAsync(T entity);
         Task DeleteAsync(Guid id);
+        Task SaveChangesAsync();
     }
 }
