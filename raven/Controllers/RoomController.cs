@@ -29,13 +29,14 @@ namespace raven.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> AddRoomController([FromBody] CreateRoomDto createroomdto) { 
+        public async Task<IActionResult> AddRoomController([FromBody] CreateRoomDTO createroomdto) { 
             
           var RoomResponseDto= await  _roomService.AddRoom(createroomdto);
 
             return CreatedAtAction(nameof(GetRoomController), new { id = RoomResponseDto.Id }, RoomResponseDto);
 
         }
+
 
 
 
