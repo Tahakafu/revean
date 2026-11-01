@@ -28,19 +28,11 @@ namespace Infrasturcture.Repositories
 
         public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
 
-        public void UpdateAsync(T entity) =>  _dbSet.Update(entity);
+        public void UpdateRoom(T entity) =>  _dbSet.Update(entity);
 
-        public async Task DeleteAsync(Guid id) 
-        {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity != null)
-            {
-
-              _dbSet.Remove(entity);
-            }
+        public void DeleteRoom(T entity) => _dbSet.Remove(entity);
         
-        }
-
+ 
         public async Task SaveChangesAsync() => await  _context.SaveChangesAsync();
 
 
