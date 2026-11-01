@@ -7,7 +7,7 @@ using static Domain1.Enums.Enums;
 
 namespace Application.DTO.Room
 {
-    public class RoomResponseDto
+    public class RoomResponseDTO
     {
         public Guid Id { get; set; }  
         public string RoomNumber { get; set; }
