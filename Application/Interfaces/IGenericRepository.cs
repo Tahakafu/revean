@@ -12,8 +12,8 @@ namespace Application.Interfaces
         Task<T?> GetByIdAsync(Guid Id);
         Task<IReadOnlyList<T>> GetAllAsync();
         Task AddAsync(T entity);
-        void UpdateAsync(T entity);
-        Task DeleteAsync(Guid id);
+        void UpdateRoom(T entity);
+        void DeleteRoom(T entity);
         Task SaveChangesAsync();
     }
 }
