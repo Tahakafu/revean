@@ -28,7 +28,7 @@ namespace Application.Services
         return await _RoomRepository.GetAllAsync();
         }
 
-        public async Task<RoomResponseDto> AddRoom(CreateRoomDto createroomdto)  {
+        public async Task<RoomResponseDTO> AddRoom(CreateRoomDTO createroomdto)  {
             if (createroomdto.PricePerNight <= 0)  throw new ArgumentException("the price per night shoud be more then zero");
             var room = new Room
             {
@@ -40,7 +40,7 @@ namespace Application.Services
             };
         await _RoomRepository.AddAsync(room);
             await _RoomRepository.SaveChangesAsync();
-            var RoomResponseDto = new RoomResponseDto
+            var RoomResponseDto = new RoomResponseDTO
             {
                 Id = room.Id,
                 RoomNumber = room.RoomNumber,
@@ -50,13 +50,32 @@ namespace Application.Services
 
             return RoomResponseDto;
         }
-        public void UpdateRoom(Room room) {
-            _RoomRepository.UpdateAsync(room);
-            _RoomRepository.SaveChangesAsync();
+        public async Task UpdateRoom(Guid Id,UpdateRoomDto updateroomdto) {
+         var room = await  _RoomRepository.GetByIdAsync(Id);
+            if (room == null) throw new ArgumentException("user is not exist");
+
+
+            room.RoomNumber = updateroomdto.RoomNumber;
+            room.Floor = updateroomdto.Floor;
+            room.Type = updateroomdto.Type;
+            room.PricePerNight = updateroomdto.PricePerNight;
+            room.RoomState = updateroomdto.RoomState;
+            
+
+            _RoomRepository.UpdateRoom(room);
+            await _RoomRepository.SaveChangesAsync();
         }
         public async Task DeleteRoom(Guid id)
         {
-          await  _RoomRepository.DeleteAsync(id);
+           var room= await _RoomRepository.GetByIdAsync(id);
+            if (room == null)
+            {
+                throw new KeyNotFoundException($"the Room with {id} is not found");
+            }
+            else
+            {
+                 _RoomRepository.DeleteRoom(room);
+            }
           await  _RoomRepository.SaveChangesAsync();
         }
 

@@ -13,8 +13,8 @@ namespace Application.Interfaces
 
         public Task<Room> GetRoomByid(Guid id);
         public Task<IReadOnlyList<Room>> GetALLRooms();
-        public Task<RoomResponseDto> AddRoom(CreateRoomDto ceateroomdto);
-        public void UpdateRoom(Room room);  
+        public Task<RoomResponseDTO> AddRoom(CreateRoomDTO ceateroomdto);
+        public  Task UpdateRoom(Guid Id,UpdateRoomDto updateroomdto);  
         public Task DeleteRoom(Guid id);
 
     }
