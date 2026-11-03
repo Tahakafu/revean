@@ -16,16 +16,56 @@ namespace Application.Services
             _RoomRepository = RoomRepository;
         }
 
-        public async Task<Room> GetRoomByid(Guid id) {
+        public async Task<RoomResponseDTO> GetRoomByid(Guid id) {
 
           
-          return await  _RoomRepository.GetByIdAsync(id);
-          
-        
+          var room = await  _RoomRepository.GetByIdAsync(id);
+            if (room == null)
+            {
+                throw new KeyNotFoundException($"The room with ID {id} was not found.");
+            }
+           
+            var RoomResponseDto = new RoomResponseDTO
+            {
+                Id = room.Id,
+                RoomNumber = room.RoomNumber,
+                PricePerNight = room.PricePerNight,
+                RoomState = room.RoomState
+            };
+
+
+
+            return RoomResponseDto;
+
         }
-        public async Task<IReadOnlyList<Room>> GetALLRooms() { 
-        
-        return await _RoomRepository.GetAllAsync();
+        public async Task<IReadOnlyList<RoomResponseDTO>> GetALLRooms() {
+
+            //var rooms = await _RoomRepository.GetAllAsync();
+            //var roodto = new List<RoomResponseDTO>();
+            //foreach (var room in rooms) {
+            //    var dto = new RoomResponseDTO();
+            //    dto.Id = room.Id;
+            //    dto.RoomNumber = room.RoomNumber;
+            //    dto.PricePerNight = room.PricePerNight;
+            //    dto.RoomState = room.RoomState;
+
+            //    roodto.Add(dto);
+            //}
+            //return roodto;
+
+            var rooms = await _RoomRepository.GetAllAsync();
+            var roomsDtos = rooms.Select(rooms => new RoomResponseDTO
+            {
+                Id = rooms.Id,
+                RoomNumber = rooms.RoomNumber,
+                PricePerNight = rooms.PricePerNight,
+                RoomState = rooms.RoomState
+
+            }
+            ).ToList();
+
+            return roomsDtos;
+
         }
 
         public async Task<RoomResponseDTO> AddRoom(CreateRoomDTO createroomdto)  {
@@ -72,10 +112,9 @@ namespace Application.Services
             {
                 throw new KeyNotFoundException($"the Room with {id} is not found");
             }
-            else
-            {
-                 _RoomRepository.DeleteRoom(room);
-            }
+            
+           _RoomRepository.DeleteRoom(room);
+            
           await  _RoomRepository.SaveChangesAsync();
         }
 

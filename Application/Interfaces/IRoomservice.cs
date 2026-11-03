@@ -11,8 +11,8 @@ namespace Application.Interfaces
     public interface IRoomService
     {
 
-        public Task<Room> GetRoomByid(Guid id);
-        public Task<IReadOnlyList<Room>> GetALLRooms();
+        public Task<RoomResponseDTO> GetRoomByid(Guid id);
+        public Task<IReadOnlyList<RoomResponseDTO>> GetALLRooms();
         public Task<RoomResponseDTO> AddRoom(CreateRoomDTO ceateroomdto);
         public  Task UpdateRoom(Guid Id,UpdateRoomDto updateroomdto);  
         public Task DeleteRoom(Guid id);
