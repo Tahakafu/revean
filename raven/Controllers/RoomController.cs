@@ -7,36 +7,51 @@ namespace raven.Controllers
 {
     [ApiController]
     [Route("api/[Controller]")]
-    public class RoomController :ControllerBase
+    public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
-        public  RoomController(IRoomService roomService) {
-            _roomService=roomService;
+        public RoomController(IRoomService roomService) {
+            _roomService = roomService;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRoomController(Guid id) { 
-        var Roomdto =  await _roomService.GetRoomByid(id);
+        public async Task<IActionResult> GetRoomController(Guid id) {
+            var Roomdto = await _roomService.GetRoomByid(id);
             return Ok(Roomdto);
-        
+
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllRoomsController() {
-       var AllRoomsdto = await _roomService.GetALLRooms();
+            var AllRoomsdto = await _roomService.GetALLRooms();
             return Ok(AllRoomsdto);
         }
 
         [HttpPost]
 
-        public async Task<IActionResult> AddRoomController([FromBody] CreateRoomDTO createroomdto) { 
-            
-          var RoomResponseDto= await  _roomService.AddRoom(createroomdto);
+        public async Task<IActionResult> AddRoomController([FromBody] CreateRoomDTO createroomdto) {
+
+            var RoomResponseDto = await _roomService.AddRoom(createroomdto);
 
             return CreatedAtAction(nameof(GetRoomController), new { id = RoomResponseDto.Id }, RoomResponseDto);
 
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRoomController(Guid id ,[FromBody] UpdateRoomDto updateroomdto) {
+        
+       await  _roomService.UpdateRoom(id, updateroomdto);
+            return NoContent();
+        
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteRoomController(Guid id) { 
+        
+      await  _roomService.DeleteRoom(id);
+            return NoContent();
+        }
 
 
 
